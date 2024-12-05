@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat en Vivo - Quinceañera</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('imagenes/verde.avif') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow: hidden; /* Para evitar el scroll innecesario */
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #4B9F83, #1F8059);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .avatar-selection,
+        .name-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .avatar-selection button {
+            background: white;
+            border: 2px solid #4B9F83;
+            border-radius: 50%;
+            font-size: 30px;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .avatar-selection button:hover {
+            background: #4B9F83;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .name-input input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 80%;
+            margin: 10px 0;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .name-input input:focus {
+            border-color: #4B9F83;
+            box-shadow: 0 0 6px #4B9F83;
+        }
+
+        .name-input button {
+            background: linear-gradient(45deg, #4B9F83, #1F8059);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .name-input button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-container {
+            display: none;
+            flex-direction: column;
+            height: 70vh;
+            overflow: hidden;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            background: url('imagenes/fotoD.jpeg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .message-content {
+            background: #fff;
+            border-radius: 15px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.sent .message-content {
+            background: #DCF8C6;
+            align-self: flex-end;
+        }
+
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .chat-input-container input:focus {
+            border-color: #4B9F83;
+            box-shadow: 0 0 6px #4B9F83;
+        }
+
+        .chat-input-container button {
+            background: linear-gradient(45deg, #4B9F83, #1F8059);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .chat-input-container button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Efecto de lluvia */
+        .rain-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .rain-image {
+            position: absolute;
+            top: -10%;
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10%) rotate(0deg);
+            }
+            100% {
+                transform: translateY(120%) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="musica/mujer.ogg" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <!-- Contenedor para el efecto de lluvia -->
+    <div class="rain-container" id="rainContainer"></div>
+
+    <div class="container">
+        <div class="header">¡Deja tus mejores deseos para la quinceañera!</div>
+
+        <div class="avatar-selection" id="avatarSelection">
+            <h3>Selecciona tu avatar:</h3>
+            <button onclick="selectAvatar('👸')">👸</button>
+            <button onclick="selectAvatar('🤴')">🤴</button>
+            <button onclick="selectAvatar('🌟')">🌟</button>
+            <button onclick="selectAvatar('📸')">Subir Foto</button>
+        </div>
+
+        <div class="name-input" id="nameInput" style="display: none;">
+            <h3>¿Cuál es tu nombre?</h3>
+            <input type="text" id="userName" placeholder="Escribe tu nombre...">
+            <button onclick="startChat()">Entrar al chat</button>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-box" id="chatBox"></div>
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" placeholder="Escribe tu mensaje aquí...">
+                <button onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let avatar = '';
+        let nombre = '';
+
+        function selectAvatar(selectedAvatar) {
+            avatar = selectedAvatar;
+            document.getElementById('avatarSelection').style.display = 'none';
+            document.getElementById('nameInput').style.display = 'flex';
+        }
+
+        function startChat() {
+            const inputName = document.getElementById('userName').value.trim();
+            nombre = inputName || 'Invitado';
+
+            document.getElementById('nameInput').style.display = 'none';
+            document.getElementById('chatContainer').style.display = 'flex';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const messageText = input.value.trim();
+
+            if (messageText) {
+                const chatBox = document.getElementById('chatBox');
+
+                const message = document.createElement('div');
+                message.classList.add('message', 'sent');
+                message.innerHTML = ` 
+                    <div class="message-content">
+                        <p><strong>${avatar} ${nombre}:</strong> ${messageText}</p>
+                    </div>
+                `;
+                chatBox.appendChild(message);
+                input.value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+   // Generador de lluvia de imágenes
+   const rainContainer = document.getElementById('rainContainer');
+
+for (let i = 0; i < 20; i++) {
+    let img = document.createElement('img');
+    img.src = 'imagenes/flor4.webp'; // Cambia por tu imagen de lluvia
+    img.classList.add('rain-image');
+    img.style.left = Math.random() * 100 + '%';  // Posición horizontal aleatoria
+    img.style.animationDuration = (Math.random() * 3 + 5) + 's';  // Duración aleatoria
+    img.style.animationDelay = (Math.random() * 2) + 's';  // Retardo aleatorio
+    img.style.width = '80px';  // Ajusta el tamaño de la imagen (tamaño intermedio)
+    img.style.height = '80px';  // Ajusta el tamaño de la imagen
+    img.style.objectFit = 'contain';  // Para mantener la proporción de la imagen
+    rainContainer.appendChild(img);
+}
+</script>
+</body>
+</html>

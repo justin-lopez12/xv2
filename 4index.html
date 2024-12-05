@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Asistencia - Quinceañera</title>
+    <style>
+        /* Estilos generales */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('imagenes/verde.avif') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow: hidden; /* Oculta el scroll para el fondo interactivo */
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
+            background: url('imagenes/dorado.jpg') no-repeat center center;
+            background-size: cover;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.5);
+            color: #FFD700;
+            padding: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .content {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .content h4 {
+            font-size: 22px;
+            color: #4B2E83;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label, input {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        input {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            border-color: #FFD700;
+            box-shadow: 0 0 8px #FFD700;
+        }
+
+        .options, .final-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background: linear-gradient(45deg, #FFD700, #FFB800);
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            background: linear-gradient(45deg, #004b03, #66bb6a);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Animación de las flores */
+        .flower-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Fondo detrás del contenido */
+            overflow: hidden;
+        }
+
+        .flower {
+            position: absolute;
+            background-image: url('imagenes/flor.png');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            animation: spin 5s linear infinite, float 10s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-50px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor de las flores -->
+    <div class="flower-container"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Confirmación de Asistencia</h1>
+        </div>
+        <div class="content">
+            <!-- Formulario en la parte superior -->
+            <div id="intro" class="question active">
+                <h4>¡Bienvenidos! Confirma tu asistencia y responde este divertido cuestionario.</h4>
+                <label for="familyName">Nombre de la familia o invitado:</label>
+                <input type="text" id="familyName" placeholder="Ej: Familia López" required>
+                <button onclick="startQuiz()">Iniciar Cuestionario</button>
+            </div>
+
+            <!-- Preguntas -->
+            <div id="q1" class="question" style="display: none;">
+                <h4>1. ¿Qué color es común en los vestidos de una quinceañera?</h4>
+                <div class="options">
+                    <button onclick="nextQuestion('q1', 'q2')">Rosa</button>
+                    <button onclick="nextQuestion('q1', 'q2')">Negro</button>
+                    <button onclick="nextQuestion('q1', 'q2')">Verde</button>
+                </div>
+            </div>
+
+            <div id="q2" class="question" style="display: none;">
+                <h4>2. ¿Quién acompaña a la quinceañera en el baile sorpresa?</h4>
+                <div class="options">
+                    <button onclick="nextQuestion('q2', 'success')">Su padre</button>
+                    <button onclick="nextQuestion('q2', 'success')">Su madre</button>
+                    <button onclick="nextQuestion('q2', 'success')">Su hermano</button>
+                </div>
+            </div>
+
+            <!-- Mensaje Final -->
+            <div id="success" class="success-message">
+                ¡Gracias por confirmar tu asistencia y participar en el cuestionario!
+                <div class="final-buttons">
+                    <button onclick="window.location.href='2index.html'">Regresar</button>
+                    <button onclick="window.location.href='3index.html'">Chat en Vivo</button>
+                    <button onclick="window.location.href='Sindex.html'">Ver Fotos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Música de fondo -->
+    <audio id="background-music" autoplay loop>
+        <source src="./musica/classic.ogg" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <!-- Efecto de sonido al hacer clic -->
+    <audio id="button-sound">
+        <source src="./musica/boton.ogg" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <script>
+        // Reproducir sonido al hacer clic en cualquier botón a partir del segundo 2
+        const buttonSound = document.getElementById('button-sound');
+        document.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                buttonSound.currentTime = 2; // Comienza a partir del segundo 2
+                buttonSound.play();
+            }
+        });
+
+        function startQuiz() {
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('q1').style.display = 'block';
+        }
+
+        function nextQuestion(currentId, nextId) {
+            document.getElementById(currentId).style.display = 'none';
+            document.getElementById(nextId).style.display = 'block';
+        }
+
+        // Generar flores dinámicamente
+        const container = document.querySelector('.flower-container');
+        const numFlowers = 15;
+
+        for (let i = 0; i < numFlowers; i++) {
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+
+            // Posición aleatoria
+            flower.style.left = `${Math.random() * 100}vw`;
+            flower.style.top = `${Math.random() * 100}vh`;
+
+            // Tamaño aleatorio
+            const size = Math.random() * 30 + 20;
+            flower.style.width = `${size}px`;
+            flower.style.height = `${size}px`;
+
+            container.appendChild(flower);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,959 @@
+/* Fondo general con textura ligera */
+body {
+    font-family: 'Playfair Display', serif;
+    color: #333;
+    background-color: #f7f9f7; /* Fondo más claro para una apariencia más suave */
+    background: url('./imagenes/fondo12.jpg') no-repeat center center/cover;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Encabezado de bienvenida */
+.welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: url('./imagenes/verde.avif') no-repeat center center/cover;
+    color: #fff;
+    text-align: center;
+    padding: 50px 30px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1.5s ease-in-out;
+    border-bottom-left-radius: 50% 60%;
+    border-bottom-right-radius: 50% 60%;
+    box-shadow: 0 4px 10px rgb(255, 255, 255); /* Sombra más suave */
+}
+
+/* Texto en el encabezado con efecto de neón */
+.welcome-screen h1 {
+    font-size: 3.5rem;
+    text-shadow: 0 0 10px rgb(252, 255, 249), 0 0 20px rgba(212, 175, 55, 0.8); /* Efecto neón suave */
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+/* Subtítulo con neón */
+.welcome-screen p {
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgb(251, 240, 240), 0 0 16px rgba(212, 175, 55, 0.7); /* Efecto neón suave */
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación para la flecha */
+@keyframes bounceArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Estilo General del Contenedor */
+#countdown-section {
+    background: url('./imagenes/verde\ S.avif') no-repeat center center;
+    background-size: cover;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 50px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+#countdown-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #f5c60b;
+    font-family: 'Helvetica Neue', sans-serif;
+    background: url('./imagenes/dorado.jpg') no-repeat center center;
+    background-size: cover;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#countdown {
+    font-size: 2rem;
+    color: #004d40;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite ease-in-out;
+    font-family: 'Roboto', sans-serif;
+}
+
+#countdown span {
+    font-weight: bold;
+    background: url('dorado.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 12px 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+#event-date {
+    font-size: 1.2rem;
+    color: #ddae06;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Título de la Sección */
+#countdown-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #f5c60b;
+    font-family: 'Helvetica Neue', sans-serif;
+    background: url('./imagenes/dorado.jpg') no-repeat center center;
+    background-size: cover;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Estilo de la Cuenta Regresiva */
+#countdown {
+    font-size: 2rem;
+    color: #004d40;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite ease-in-out;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4); /* Añadí sombra para mejorar la visibilidad */
+}
+
+/* Estilo de los Números */
+#countdown span {
+    font-weight: bold;
+    background: url('./imagenes/dorado.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 20px 25px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgb(214, 168, 2);
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #fff; /* Para asegurar legibilidad */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto de hover en los números */
+#countdown span:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(214, 168, 2, 0.6); /* Mejora el sombreado */
+}
+
+/* Estilo del Texto de Fecha del Evento */
+#event-date {
+    font-size: 1.2rem;
+    color: #ddae06;
+    font-weight: 500;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Botón de Confirmación */
+.confirm-btn {
+    background-color: #004d40;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s ease-in-out;
+    margin-top: 20px; /* Asegura que no se pegue al contenido */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Efecto de hover en el botón */
+.confirm-btn:hover {
+    background-color: #00796b;
+    transform: scale(1.05); /* Efecto de expansión */
+}
+
+/* Estilo de Pop-up */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
+}
+
+.popup button {
+    padding: 10px 20px;
+    background-color: #004d40;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.popup button:hover {
+    background-color: #00796b;
+}
+
+/* Pop-up visible */
+.popup:not(.hidden) {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Animación de Pulsación */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Estado oculto del Pop-up */
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+
+
+
+/* Estilo para la sección del mapa */
+#location-section {
+    padding: 40px 20px;
+    text-align: center;
+    background: url('./imagenes/verde\ S.avif') no-repeat center center;
+    background-size: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor principal */
+.location-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten cuando no haya suficiente espacio */
+}
+
+/* Contenedor del slider de imágenes */
+.image-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 50%;
+    flex-wrap: nowrap;
+    overflow: hidden; /* Asegura que las imágenes no se desborden */
+}
+
+.image-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 20px;
+}
+
+.location-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.arrow {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    color: #004d40;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    z-index: 10; /* Asegura que las flechas estén encima de las imágenes */
+}
+
+.arrow:hover {
+    color: #d4af37; /* Color dorado en hover */
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+
+/* Contenedor de la información de la ubicación y el botón */
+.location-info {
+    width: 45%;
+    text-align: center;
+}
+
+.location-map {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.location-btn {
+    background: #d4af37; /* Dorado */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.location-btn:hover {
+    background: #004d40; /* Verde botella */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones con un diseño más sutil */
+button {
+    background: url('./imagenes/dorado.jpg') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: #004d40; /* Verde botella */
+    color: #d4af37; /* Dorado */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón de Confirmación */
+.confirm-btn {
+    margin-top: 15px;
+}
+
+.confirm-btn:hover {
+    transform: translateY(-5px);
+}
+
+
+/* Consultas de medios para dispositivos móviles y pantallas pequeñas */
+@media (max-width: 768px) {
+    .location-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .image-slider {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .location-image {
+        max-width: 90%;
+    }
+
+    .location-info {
+        width: 100%;
+    }
+
+    .location-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .location-image {
+        max-width: 80%;
+    }
+
+    .arrow {
+        font-size: 1.5rem;
+    }
+
+    .location-container {
+        padding: 10px;
+    }
+}
+
+/* Estilo para las fechas pequeñas */
+#countdown {
+    font-size: 0.9rem; /* Reducción del tamaño de la fuente */
+    color: #fffcfc; /* Color neutro */
+    font-weight: normal; /* No tan resaltado */
+    display: inline-block;
+}
+
+#countdown span {
+    font-size: 0.8rem; /* Ajuste aún más pequeño para los números */
+    padding: 0 5px;
+}
+
+
+
+/* Pop-up de confirmación */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease-in-out;
+}
+
+.popup.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+/* Botón de Música (Posición más profesional) */
+.music-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: #d4af37;
+    color: #fff;
+    border: none;
+    padding: 18px 28px;
+    font-size: 1.4rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+.music-btn:hover {
+    background: #ffffff;
+    color: #d4af37;
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    display: none;
+    animation: zoomIn 0.4s ease-out;
+}
+
+.popup-content button {
+    background: #d4af37; /* Dorado */
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.popup-content button:hover {
+    background: #004d40; /* Verde botella */
+}
+
+/* Establecemos un estilo global para todos los elementos */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Estilo para la sección de ubicación */
+#location-section {
+    padding: 40px 20px;
+    text-align: center;
+    background: url('./imagenes/verde\ S.avif') no-repeat center center;
+    background-size: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* Añadido espacio entre la ubicación y la línea de tiempo */
+}
+
+/* Contenedor principal */
+.location-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Carrusel Vertical */
+.carousel-container {
+    position: relative;
+    width: 80%;
+    max-width: 1000px;
+    height: 500px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    border: 3px solid #ccc;
+    background: url('./imagenes/verde\ S.avif') no-repeat center center;
+    background-size: cover;  /* Asegura que el fondo se ajuste al tamaño */
+}
+
+/* Carrusel */
+.carousel {
+    display: flex;
+    flex-direction: column; 
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+}
+
+/* Elemento del carrusel */
+.carousel-item {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 15px;  /* Separar más el texto de la imagen */
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Imagen dentro del carrusel */
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Esto asegura que la imagen se mantenga completa sin cortarse */
+    border-radius: 10px;
+    border: 3px solid #FFD700;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Efecto al pasar el mouse sobre la imagen */
+.carousel-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Descripción del evento */
+.event-description {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    width: calc(100% - 20px);
+    padding: 15px;
+    text-align: left;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    font-size: 1.2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Texto del evento */
+.carousel-item p {
+    font-size: 1.2em;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    margin-top: 20px;  /* Aumentar el margen entre la imagen y el texto */
+}
+
+/* Botones de navegación del carrusel */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 10;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
+
+/* Estilo para la visualización detallada del evento */
+#event-detail {
+    display: none;
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#event-info img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+#event-info p {
+    font-size: 1.4em;
+    margin-top: 20px;
+    color: #333;
+}
+
+/* Estilo para la fecha del evento */
+#countdown {
+    font-size: 1.5em;
+    margin-top: 20px;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Media Queries para adaptación móvil */
+@media (max-width: 768px) {
+    .carousel-container {
+        width: 100%;
+        height: 350px;
+        padding: 0 10px;
+    }
+
+    .carousel-item img {
+        object-fit: contain;  /* Ajustar para pantallas más pequeñas */
+        width: 100%;
+    }
+
+    .carousel-btn {
+        font-size: 20px;
+        padding: 8px;
+    }
+
+    #event-info p {
+        font-size: 1.2em;
+    }
+
+    #event-detail {
+        margin-top: 20px;
+        padding: 15px;
+    }
+
+    #countdown {
+        font-size: 1.2em;
+        margin-top: 30px;
+    }
+
+    body {
+        font-size: 16px;
+    }
+}
+
+/* Aseguramos un diseño para pantallas muy pequeñas (hasta 480px) */
+@media (max-width: 480px) {
+    .carousel-btn {
+        font-size: 16px;
+        padding: 5px;
+    }
+
+    .carousel-item p {
+        font-size: 1em;
+    }
+
+    .carousel-container {
+        height: auto;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    /* Adaptación para la fecha y detalles en pantallas pequeñas */
+    #countdown {
+        font-size: 1.1em;
+        margin-top: 25px;
+    }
+
+    #event-info p {
+        font-size: 1.1em;
+    }
+
+    #event-detail {
+        margin-top: 15px;
+    }
+}
+
+/* Asegurar que la imagen y texto se ajusten a cualquier tamaño */
+@media (max-width: 1024px) {
+    .carousel-container {
+        height: 450px;
+    }
+
+    .carousel-item img {
+        object-fit: contain;
+    }
+
+    .live-messages, .photo-memory {
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #b8943a; /* Color dorado elegante */
+        border-radius: 12px;
+        background: #f4f4e8; /* Fondo claro con tonalidad beige */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 90%; /* Asegura que se vea bien en pantallas pequeñas */
+    }
+
+    .live-messages h2, .photo-memory h2 {
+        color: #4f6a2c; /* Color verde elegante */
+        text-align: center;
+        margin-bottom: 15px;
+        font-family: 'Georgia', serif;
+    }
+
+    .message-box {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .messages {
+        border: 1px solid #d4af37; /* Línea dorada */
+        padding: 10px;
+        height: 200px;
+        overflow-y: scroll;
+        background: #fff;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    .message {
+        padding: 5px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #eee;
+        color: #4f6a2c; /* Verde para el texto */
+    }
+
+    .message-input {
+        display: flex;
+        gap: 10px;
+    }
+
+    .message-input input {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #b8943a;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .message-input button {
+        background: #b8943a; /* Botón dorado */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .message-input button:hover {
+        background: #4f6a2c; /* Verde en hover */
+    }
+
+    .social-buttons {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .social-icon:hover {
+        transform: scale(1.2); /* Efecto de zoom */
+    }
+
+    .photo-container {
+        text-align: center;
+    }
+
+    .photo-container button {
+        background: #4f6a2c; /* Botón verde */
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .photo-container button:hover {
+        background: #b8943a; /* Cambio a dorado en hover */
+    }
+
+    .sticker-options {
+        margin-top: 15px;
+    }
+
+    .sticker-options button {
+        background: #d4af37; /* Dorado */
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        margin: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .sticker-options button:hover {
+        background: #4f6a2c; /* Verde en hover */
+    }
+
+    #photo-preview {
+        margin-top: 15px;
+        border: 2px dashed #b8943a;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        min-height: 150px;
+    }
+}

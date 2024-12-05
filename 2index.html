@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajuste de vista en móviles -->
+    <title>Celebración de 15 Años - Confirmación</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
+    <style>
+       
+       
+       body {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .section {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #ffffff7e;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .confirm-btn, .location-btn, button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .confirm-btn:hover, .location-btn:hover, button:hover {
+            background-color: #45a049;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(33, 129, 1, 0.677);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .music-icon {
+            font-size: 24px;
+            color: white;
+        }
+
+        .photo-carousel img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timeline-item {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #chat-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 15px;
+            }
+
+            .confirm-btn, .location-btn, button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            #map {
+                height: 300px;
+            }
+
+            .timeline {
+                flex-direction: column;
+            }
+
+            .music-control {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="welcome-screen">
+        <h1>¡Bienvenidos a la Celebración de 15 Años!</h1>
+        <p>Estamos muy felices de contar con tu presencia en este evento tan especial.</p>
+    </header>
+
+    <!-- Cuenta Regresiva y Confirmación -->
+<div id="countdown-section">
+    <h2>Cuenta Regresiva para el Evento</h2>
+    <div id="countdown">
+        <span id="days"></span>días 
+        <span id="hours"></span>horas 
+        <span id="minutes"></span>minutos 
+        <span id="seconds"></span>segundos
+    </div>
+    <div id="event-date">Evento el 15 de Diciembre de 2024</div>
+    
+    <!-- Botón de Confirmación (estará debajo del contador) -->
+    <div id="confirmation-btn">
+        <button onclick="window.location.href='4index.html';">Confirmar Asistencia</button>
+    </div>
+</div>
+
+<script>
+    // Asegúrate de que el documento esté completamente cargado antes de ejecutar el script
+    document.addEventListener("DOMContentLoaded", function() {
+        // Definir la fecha del evento (15 de diciembre de 2024 a las 5:00 PM)
+        const eventDate = new Date("2024-12-15T17:00:00").getTime();
+
+        // Intervalo para actualizar la cuenta regresiva cada segundo
+        const countdownInterval = setInterval(function() {
+            // Fecha y hora actual
+            const now = new Date().getTime();
+            
+            // Diferencia entre la fecha del evento y la actual
+            const distance = eventDate - now;
+
+            // Si la fecha ya pasó, detener la cuenta regresiva
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "¡Es el gran día!";
+            } else {
+                // Calcular días, horas, minutos y segundos restantes
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Actualizar el contenido de los spans con los valores calculados
+                document.getElementById("days").textContent = days;
+                document.getElementById("hours").textContent = hours;
+                document.getElementById("minutes").textContent = minutes;
+                document.getElementById("seconds").textContent = seconds;
+            }
+        }, 1000); // Actualiza cada segundo
+    });
+</script>
+
+<!-- Estilo CSS para la cuenta regresiva y el botón -->
+<style>
+    /* Estilos para la cuenta regresiva */
+    #countdown-section {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #countdown {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    #confirmation-btn {
+        margin-top: 20px;
+    }
+
+    #confirmation-btn button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 16px; /* Tamaño más pequeño */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px; /* Fuente más pequeña */
+    }
+
+    #confirmation-btn button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<!-- Sección del mapa -->
+<div id="location-section">
+    <div class="location-container">
+        <!-- Mensaje visible sobre las fotos (ahora de color blanco) -->
+        <div id="click-message" style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; color: white;">
+            Haz clic en la foto para avanzar
+        </div>
+
+        <div class="image-slider">
+            <!-- Ya no hay flechas de navegación -->
+            <div class="image-container">
+                <img src="./imagenes/foto1.jpeg" alt="Image 1" class="location-image">
+                <img src="./imagenes/foto2.jpeg" alt="Image 2" class="location-image">
+                <img src="./imagenes/foto3.jpeg" alt="Image 3" class="location-image">
+            </div>
+        </div>
+
+        <div class="location-info">
+            <div class="location-map">
+                <img src="./imagenes/mapa.png" alt="Mapa de ubicación" width="100%" height="300" style="border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+            </div>
+            <a href="https://maps.app.goo.gl/yAhw6YVZ5V3q9eRu7" target="_blank">
+                <button class="location-btn">
+                    Ir a Google Maps
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script para cambiar las imágenes al hacer clic
+    const images = document.querySelectorAll('.location-image');
+    let currentIndex = 0;
+
+    // Función para mostrar la imagen siguiente con animación de desvanecimiento
+    function showNextImage() {
+        images[currentIndex].classList.remove('fade-in'); // Elimina el efecto de la imagen actual
+        images[currentIndex].classList.add('fade-out'); // Aplica el efecto de desvanecimiento al ocultarla
+        setTimeout(() => {
+            images[currentIndex].style.display = 'none'; // Oculta la imagen después de la animación
+
+            currentIndex = (currentIndex + 1) % images.length; // Incrementa el índice y vuelve al inicio si es necesario
+
+            images[currentIndex].style.display = 'block'; // Muestra la siguiente imagen
+            images[currentIndex].classList.remove('fade-out'); // Elimina el efecto de desvanecimiento de la nueva imagen
+            images[currentIndex].classList.add('fade-in'); // Aplica el efecto de desvanecimiento a la nueva imagen
+        }, 500); // Espera medio segundo para que el efecto de desvanecimiento termine
+    }
+
+    // Mostrar la primera imagen y ocultar las demás
+    images.forEach((img, index) => {
+        if (index !== 0) img.style.display = 'none'; // Oculta todas las imágenes excepto la primera
+    });
+
+    // Añadir eventos para cambiar la imagen al hacer clic en ella
+    images.forEach(img => {
+        img.addEventListener('click', showNextImage);
+    });
+</script>
+
+<style>
+    /* Estilos para las imágenes */
+    .image-container {
+        position: relative;
+    }
+
+    .location-image {
+        width: 100%;
+        height: auto;
+        display: block; /* Mostrar la primera imagen de inicio */
+        opacity: 1; /* Mantiene las imágenes visibles */
+        transition: opacity 0.5s ease-in-out; /* Transición suave para el desvanecimiento */
+    }
+
+    /* Animación de desvanecimiento */
+    .fade-in {
+        opacity: 1 !important; /* Asegura que la imagen se vuelva visible */
+    }
+
+    .fade-out {
+        opacity: 0 !important; /* Hace que la imagen desaparezca */
+    }
+
+    /* Botón de ir a Google Maps */
+    .location-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .location-btn:hover {
+        background-color: #45a049;
+    }
+</style>
+
+
+
+
+<!-- Botón de Mensaje con Imagen -->
+<div class="control chat-control" onclick="redirectToChat()">
+    <img src="./imagenes/carta.png" alt="Chat" class="chat-icon">
+</div>
+
+<!-- Botón de Cámara con Imagen -->
+<div class="control camera-control" onclick="redirectToCamera()">
+    <img src="./imagenes/camara2.jpg" alt="Cámara" class="camera-icon">
+</div>
+
+<!-- Botón de Facebook con Imagen -->
+<div class="control facebook-control" onclick="redirectToFacebook()">
+    <img src="./imagenes/facebook.png" alt="Facebook" class="facebook-icon">
+</div>
+
+<script>
+    // Función para redirigir al chat
+    function redirectToChat() {
+        window.location.href = "3index.html"; // Redirige a la página de chat
+    }
+
+    // Función para redirigir a la cámara
+    function redirectToCamera() {
+        window.location.href = "Sindex.html"; // Redirige a la página de la cámara
+    }
+
+    // Función para redirigir a Facebook
+    function redirectToFacebook() {
+        window.open("https://www.facebook.com/events", "_blank");
+    }
+</script>
+
+<style>
+    /* Estilo genérico para los botones */
+    .control {
+        position: fixed;
+        width: 50px; /* Tamaño reducido */
+        height: 50px;
+        background-image: url("./imagenes/botones.png"); /* Fondo con la imagen btones */
+        background-size: cover; /* Asegura que la imagen cubra el botón */
+        border-radius: 50%; /* Forma circular */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.3s ease-in-out;
+        border: 2px solid transparent; /* Borde inicial transparente */
+    }
+
+    .control:hover {
+        transform: scale(1.1); /* Efecto al pasar el mouse */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        border: 2px solid gold; /* Agrega borde dorado al pasar el mouse */
+    }
+
+    /* Posiciones de los botones */
+    .music-control {
+        bottom: 20px; /* Botón más cercano al borde inferior */
+        right: 20px;
+    }
+
+    .chat-control {
+        bottom: 90px; /* Debajo del botón de música */
+        right: 20px;
+    }
+
+    .camera-control {
+        bottom: 160px; /* Debajo del botón de chat */
+        right: 20px;
+    }
+
+    .facebook-control {
+        bottom: 230px; /* Debajo del botón de cámara */
+        right: 20px;
+    }
+
+    /* Estilo para las imágenes dentro de los botones */
+    .chat-icon, .camera-icon, .facebook-icon {
+        width: 100%; /* Asegura que la imagen cubra todo el círculo */
+        height: 100%;
+        object-fit: cover; /* Asegura que la imagen se recorte si es necesario */
+        border-radius: 50%; /* Forma circular para la imagen */
+    }
+</style>
+
+<script>
+    // Función para redirigir al chat
+    function redirectToChat() {
+        window.location.href = "3index.html";
+    }
+
+    // Función para redirigir a la cámara
+    function redirectToCamera() {
+        window.location.href = "Sindex.html";
+    }
+
+    // Función para redirigir a Facebook
+    function redirectToFacebook() {
+        window.open("https://www.facebook.com/events", "_blank");
+    }
+
+    // Placeholder para la función de música (puedes completarla según tu implementación)
+    function toggleMusic() {
+        alert("Música activada/desactivada.");
+    }
+</script>
+
+
+
+<!-- Elemento de Audio -->
+<audio id="background-music">
+    <source src="./musica/cielo.ogg" type="audio/mpeg">
+    Tu navegador no soporta el formato de audio.
+</audio>
+
+<!-- Botón de Música -->
+<div class="control music-control" onclick="toggleMusic()">
+    <div class="music-icon" id="music-icon">🎶</div>
+</div>
+
+<script>
+    // Función para alternar entre reproducir o pausar la música
+    function toggleMusic() {
+        var music = document.getElementById('background-music');
+        var icon = document.getElementById('music-icon');
+
+        // Si la música está pausada, comienza a reproducirla
+        if (music.paused) {
+            music.play();
+            icon.textContent = "🔊";  // Cambia el icono a volumen activado
+        } else {
+            music.pause();  // Si está sonando, la pausa
+            icon.textContent = "🎶";  // Cambia el icono a volumen silenciado
+        }
+    }
+
+    // Opcional: Iniciar la música automáticamente al cargar la página
+    window.onload = function() {
+        var music = document.getElementById('background-music');
+        music.play();
+        document.getElementById('music-icon').textContent = "🔊"; // Cambia el ícono a volumen activado
+    }
+</script>
+
+<style>
+ /* Estilo genérico para los botones */
+ .control {
+        position: fixed;
+        width: 50px; /* Tamaño reducido */
+        height: 50px;
+        background-image: url("./imagenes/botones.png"); /* Fondo con la imagen btones */
+        background-size: cover; /* Asegura que la imagen cubra el botón */
+        border-radius: 50%; /* Forma circular */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        font-size: 1.6rem; /* Tamaño del ícono */
+        border: 2px solid gold; /* Borde dorado siempre visible */
+        opacity: 0; /* Inicialmente invisible */
+        animation: fadeIn 1s forwards; /* Animación de aparición */
+        animation-delay: 15s; /* Espera de 15 segundos antes de empezar la animación */
+    }
+
+    /* Animación de aparición */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px); /* Desliza desde abajo */
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .control:hover {
+        transform: scale(1.1); /* Efecto al pasar el mouse */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Posición de los botones */
+    .music-control {
+        bottom: 20px; /* Botón más cercano al borde inferior */
+        right: 20px;
+    }
+
+    /* Iconos */
+    .music-icon {
+        color: white; /* Color blanco para los íconos */
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Resplandor en los íconos */
+    }
+
+    /* Puedes agregar más estilos para los otros botones de la misma manera */
+</style>
+
+<!-- Botón de Música -->
+<div class="control music-control" onclick="toggleMusic()">
+    <div class="music-icon" id="music-icon">🎶</div>
+</div> 
+</style>
+
+
+  <!-- Carrusel de imágenes con Línea de Tiempo -->
+<div class="carousel-container">
+    <div class="carousel" id="carousel">
+      <!-- Imágenes del carrusel y eventos de la línea de tiempo -->
+        <div class="carousel-item" onclick="showEvent(0)">
+            <div class="event-description">
+                <p>Evento 1 Importante</p>
+                <p>Descripción del Evento 1</p>
+            </div>
+            <img src="./imagenes/dayana3.jpeg" alt="Imagen 1">
+        </div>
+        <div class="carousel-item" onclick="showEvent(1)">
+            <div class="event-description">
+                <p>Evento 2 Importante</p>
+                <p>Descripción del Evento 2</p>
+            </div>
+            <img src="./imagenes/dayana13.jpeg" alt="Imagen 2">
+        </div>
+        <div class="carousel-item" onclick="showEvent(2)">
+            <div class="event-description">
+                <p>Evento 3 Importante</p>
+                <p>Descripción del Evento 3</p>
+            </div>
+            <img src="./imagenes/dayana1.jpeg" alt="Imagen 3">
+        </div>
+        <div class="carousel-item" onclick="showEvent(3)">
+            <div class="event-description">
+                <p>Evento 4 Importante</p>
+                <p>Descripción del Evento 4</p>
+            </div>
+            <img src="./imagenes/dayana11.jpeg" alt="Imagen 4">
+        </div>
+        <div class="carousel-item" onclick="showEvent(4)">
+            <div class="event-description">
+                <p>Evento 5 Importante</p>
+                <p>Descripción del Evento 5</p>
+            </div>
+            <img src="./imagenes/dayana7.jpeg" alt="Imagen 5">
+        </div>
+        <div class="carousel-item" onclick="showEvent(5)">
+            <div class="event-description">
+                <p>Evento 6 Importante</p>
+                <p>Descripción del Evento 6</p>
+            </div>
+            <img src="./imagenes/dayana8.jpeg" alt="Imagen 6">
+        </div>
+        <div class="carousel-item" onclick="showEvent(6)">
+            <div class="event-description">
+                <p>Evento 7 Importante</p>
+                <p>Descripción del Evento 7</p>
+            </div>
+            <img src="./imagenes/dayana14.jpeg" alt="Imagen 7">
+        </div>
+        <div class="carousel-item" onclick="showEvent(7)">
+            <div class="event-description">
+                <p>Evento 8 Importante</p>
+                <p>Descripción del Evento 8</p>
+            </div>
+            <img src="./imagenes/dayana12.jpeg" alt="Imagen 8">
+        </div>
+        <div class="carousel-item" onclick="showEvent(8)">
+            <div class="event-description">
+                <p>Evento 9 Importante</p>
+                <p>Descripción del Evento 9</p>
+            </div>
+            <img src="./imagenes/dayana9.jpeg" alt="Imagen 9">
+        </div>
+        <div class="carousel-item" onclick="showEvent(9)">
+            <div class="event-description">
+                <p>Evento 10 Importante</p>
+                <p>Descripción del Evento 10</p>
+            </div>
+            <img src="./imagenes/dayana10.jpeg" alt="Imagen 10">
+        </div>
+        <div class="carousel-item" onclick="showEvent(10)">
+            <div class="event-description">
+                <p>Evento 11 Importante</p>
+                <p>Descripción del Evento 11</p>
+            </div>
+            <img src="./imagenes/dayana2.jpeg" alt="Imagen 11">
+        </div>
+        <div class="carousel-item" onclick="showEvent(11)">
+            <div class="event-description">
+                <p>Evento 12 Importante</p>
+                <p>Descripción del Evento 12</p>
+            </div>
+            <img src="./imagenes/dayana4.jpeg" alt="Imagen 12">
+        </div>
+        <div class="carousel-item" onclick="showEvent(12)">
+            <div class="event-description">
+                <p>Evento 13 Importante</p>
+                <p>Descripción del Evento 13</p>
+            </div>
+            <img src="./imagenes/dayana5.jpeg" alt="Imagen 13">
+        </div>
+        <div class="carousel-item" onclick="showEvent(13)">
+            <div class="event-description">
+                <p>Evento 14 Importante</p>
+                <p>Descripción del Evento 14</p>
+            </div>
+            <img src="./imagenes/dayana6.jpeg" alt="Imagen 14">
+        </div>
+        <div class="carousel-item" onclick="showEvent(14)">
+            <div class="event-description">
+                <p>Evento 15 Importante</p>
+                <p>Descripción del Evento 15</p>
+            </div>
+            <img src="./imagenes/dayana15.jpeg" alt="Imagen 15">
+        </div>
+    </div>
+ <!-- Sección de Mensajes en Vivo -->
+ <div class="live-messages">
+    <h2>Mensaje en Vivo para la Quinceañera</h2>
+    <div class="message-box">
+        <div class="messages" id="messages">
+            <!-- Aquí se mostrarán los mensajes -->
+        </div>
+        <div class="social-buttons">
+            <a href="https://www.whatsapp.com/" target="_blank">
+                <img src="./imagenes/whatsapp-icon.png" alt="WhatsApp" class="social-icon">
+            </a>
+            <a href="https://www.facebook.com/" target="_blank">
+                <img src="./imagenes/facebook-icon.png" alt="Facebook" class="social-icon">
+            </a>
+        </div>
+        <div class="message-input">
+            <input type="text" id="messageInput" placeholder="Escribe tu mensaje aquí..." />
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Sección de Foto Recuerdo -->
+<div class="photo-memory">
+    <h2>Foto Recuerdo del Evento</h2>
+    <div class="photo-container">
+        <button onclick="openCamera()">Tomar Foto</button>
+        <div id="photo-preview"></div>
+        <div class="sticker-options">
+            <button onclick="addSticker('sticker1')">Sticker 1</button>
+            <button onclick="addSticker('sticker2')">Sticker 2</button>
+            <button onclick="addSticker('sticker3')">Sticker 3</button>
+        </div>
+        <button onclick="savePhoto()">Guardar Foto</button>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="scripts.js"></script>
+<script>
+    function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const messagesDiv = document.getElementById('messages');
+
+        if (messageInput.value.trim() !== "") {
+            const message = document.createElement('div');
+            message.textContent = messageInput.value;
+            messagesDiv.appendChild(message);
+            messageInput.value = ""; // Limpiar el campo de entrada
+        }
+    }
+
+    function openCamera() {
+        // Código para abrir la cámara o mostrar un modal
+        alert('Abrir cámara no está implementado aún.');
+    }
+
+    function addSticker(sticker) {
+        // Código para agregar stickers a la foto
+        alert(`Sticker ${sticker} agregado a la foto.`);
+    }
+
+    function savePhoto() {
+        // Código para guardar la foto
+        alert('Foto guardada exitosamente.');
+    }
+</script>
+</body>
+</html>
+

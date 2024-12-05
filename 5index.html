@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Mejorado con Firebase</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('tu-fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            background-color: #4CAF50;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h2>Iniciar Sesión</h2>
+        <input type="email" id="login-email" placeholder="Correo electrónico" required>
+        <input type="password" id="login-password" placeholder="Contraseña" required>
+        <button class="button" onclick="login()">Iniciar sesión</button>
+        <button class="button" onclick="showRegisterForm()">Agregar Usuario</button>
+        <div class="error-message" id="login-error"></div>
+    </div>
+
+    <div class="container hidden" id="register-container">
+        <h2>Registrar Usuario</h2>
+        <input type="email" id="register-email" placeholder="Correo electrónico" required>
+        <input type="password" id="register-password" placeholder="Contraseña" required>
+        <button class="button" onclick="register()">Registrar</button>
+        <button class="button" onclick="cancelRegister()">Cancelar</button>
+        <div class="error-message" id="register-error"></div>
+    </div>
+
+    <!-- Importar Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDsMjtHwFnsvFFE8I0X68i5cwo0PctyQQc",
+            authDomain: "invitacionxv1.firebaseapp.com",
+            projectId: "invitacionxv1",
+            storageBucket: "invitacionxv1.appspot.com",
+            messagingSenderId: "286170594893",
+            appId: "1:286170594893:web:57652bc00a5195fd0fa604",
+            measurementId: "G-H8N92VG6G4"
+        };
+
+        // Inicializar Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.getAuth(app);
+        const db = firebase.getFirestore(app);
+
+        // Mostrar formulario de registro
+        function showRegisterForm() {
+            document.getElementById("login-container").classList.add("hidden");
+            document.getElementById("register-container").classList.remove("hidden");
+        }
+
+        // Cancelar registro
+        function cancelRegister() {
+            document.getElementById("register-container").classList.add("hidden");
+            document.getElementById("login-container").classList.remove("hidden");
+        }
+
+        // Registro de usuario
+        async function register() {
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
+            const errorDiv = document.getElementById("register-error");
+
+            try {
+                // Registrar al usuario en Firebase Authentication
+                const userCredential = await firebase.createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Guardar el usuario en Firestore
+                await firebase.setDoc(firebase.doc(db, "usuarios", user.uid), {
+                    email: user.email,
+                    createdAt: new Date()
+                });
+
+                alert("Usuario registrado con éxito.");
+                cancelRegister();
+            } catch (error) {
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = "block";
+            }
+        }
+
+        // Inicio de sesión
+        async function login() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            const errorDiv = document.getElementById("login-error");
+
+            try {
+                const userCredential = await firebase.signInWithEmailAndPassword(auth, email, password);
+                alert(`Bienvenido, ${userCredential.user.email}`);
+            } catch (error) {
+                errorDiv.textContent = "Correo o contraseña incorrectos.";
+                errorDiv.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

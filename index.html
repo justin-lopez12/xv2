@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Playfair Display', serif;
+            color: #333;
+            background-color: #eaf7e0; /* Fondo verde claro */
+            background-image: url('https://www.transparenttextures.com/patterns/paper.png'); /* Textura ligera */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.3), inset 0 0 25px rgba(255, 255, 255, 0.1); /* Brillos en el fondo */
+        }
+
+        /* Fondo decorativo con más tacones */
+        .background-decor {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('./imagenes/tacon.png'); /* Usa una imagen con decoraciones de 15 años (flores, estrellas) */
+            background-size: 10%; /* Ajustamos el tamaño de los tacones */
+            background-repeat: repeat; /* Repetimos los tacones en todo el fondo */
+            background-position: center;
+            opacity: 0.2; /* Baja opacidad para crear un efecto sutil */
+        }
+
+        /* Contenedor principal */
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            text-align: center;
+        }
+
+        /* Estilo del sobre */
+        .envelope {
+            position: relative;
+            width: 300px; /* Tamaño mayor */
+            height: 250px; /* Tamaño mayor */
+            background: white;
+            border: 3px solid black;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transform: perspective(600px) rotateX(10deg); /* Agregar perspectiva para darle un toque 3D */
+            animation: bounce 1s ease-in-out infinite; /* Animación de rebote suave */
+        }
+
+        /* Número en el sobre */
+        .envelope-number {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10rem; /* Aumentar el tamaño del 15 */
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.9), 0 0 30px rgba(212, 175, 55, 1); /* Efecto neón brillante */
+            opacity: 1;
+            transition: opacity 0.6s ease-out;
+        }
+
+        /* Nombre debajo del número */
+        .envelope-name {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4rem; /* Aumentar tamaño del nombre */
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.9), 0 0 30px rgba(212, 175, 55, 1);
+            opacity: 1;
+            transition: opacity 0.6s ease-out;
+        }
+
+        /* Contenido dentro del sobre */
+        .envelope-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 60%; /* Ajustar la posición para dar espacio */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            font-size: 2rem; /* Tamaño más grande */
+            font-weight: bold;
+            color: #004d40;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Líneas horizontales visibles antes de abrir el sobre */
+        .envelope .line1, .envelope .line2 {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            height: 3px;
+            background-color: black;
+            opacity: 1; /* Visibles desde el principio */
+        }
+
+        .envelope .line1 {
+            left: 0;
+        }
+
+        .envelope .line2 {
+            right: 0;
+        }
+
+        /* Animación de apertura del sobre */
+        .envelope.open .envelope-number {
+            opacity: 0; /* El número desaparece al abrir el sobre */
+        }
+
+        .envelope.open .envelope-name {
+            opacity: 0; /* El nombre también desaparece */
+        }
+
+        .envelope.open .envelope-content {
+            opacity: 1;
+        }
+
+        .envelope.open .line1, .envelope.open .line2 {
+            opacity: 0; /* Las líneas desaparecen cuando el sobre se abre */
+        }
+
+        /* Mensaje emergente */
+        .welcome-message {
+            font-size: 2rem; /* Tamaño mayor */
+            font-weight: bold;
+            margin-top: 20px;
+            color: #012e02f1;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Botón para continuar */
+        .enter-btn {
+            background: #042900;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 40px; /* Mover el botón hacia abajo */
+            position: relative;
+            opacity: 0; /* Inicialmente oculto */
+            animation: none; /* Sin animación inicial */
+        }
+
+        @keyframes slideIn {
+            0% {
+                left: -100%;
+                opacity: 0;
+            }
+            100% {
+                left: 50%;
+                transform: translateX(-50%);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estilo del mensaje de abrir sobre */
+        .open-envelope-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #004d40;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo del emoji secreto */
+        .secret-emoji {
+            position: absolute;
+            font-size: 5rem;
+            cursor: pointer;
+            animation: moveEmoji 10s linear infinite; /* Reducir la velocidad de la animación */
+        }
+
+        @keyframes moveEmoji {
+            0% { left: 5%; top: 10%; }
+            25% { left: 40%; top: 30%; }
+            50% { left: 70%; top: 10%; }
+            75% { left: 80%; top: 60%; }
+            100% { left: 10%; top: 50%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo con decoraciones de 15 años -->
+    <div class="background-decor"></div>
+
+    <!-- Reproductor de música -->
+    <audio autoplay loop>
+        <source src="musica/carta.ogg" type="audio/mp3">
+        Tu navegador no soporta el audio.
+    </audio>
+
+    <!-- Encabezado con el sobre de invitación -->
+    <header class="welcome-screen">
+        <!-- Mensaje "Abrir sobre" justo arriba del sobre -->
+        <p class="open-envelope-message" id="open-envelope-message">¡Haz clic para abrir el sobre!</p>
+
+        <div class="envelope" onclick="openEnvelope()">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="envelope-number" id="envelope-number">15</div> <!-- Número dentro del sobre -->
+            <div class="envelope-name">Dayana</div> <!-- Nombre debajo del número -->
+            <div class="envelope-content">¡Estás Invitado!</div>
+        </div>
+        <!-- Mensaje de bienvenida -->
+        <p class="welcome-message">¡Bienvenido a mi invitación virtual! Haz clic en el sobre para abrirlo.</p>
+        <button class="enter-btn" id="enterBtn" onclick="enterPage()">Entrar</button>
+    </header>
+
+    <script>
+        // Función para abrir el sobre y mostrar el contenido
+        function openEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            const openMessage = document.querySelector('.open-envelope-message');
+            const envelopeContent = document.querySelector('.envelope-content');
+            const enterBtn = document.querySelector('.enter-btn');
+            const envelopeNumber = document.getElementById('envelope-number');
+            const envelopeName = document.getElementById('envelope-name');
+
+            envelope.classList.add('open'); // Se abre el sobre
+            openMessage.style.display = 'none'; // Ocultar el mensaje de abrir sobre
+            envelopeContent.style.opacity = 1; // Mostrar el contenido
+            enterBtn.style.opacity = 1; // Mostrar el botón para continuar
+
+            // Añadir animación para que el botón entre desde un lado
+            enterBtn.style.animation = 'slideIn 2s ease-in-out';
+
+            // Cambiar el número y nombre en el sobre al hacer clic
+            envelopeNumber.style.opacity = 0;
+            envelopeName.style.opacity = 0;
+        }
+
+        // Función para redirigir a una nueva página al hacer clic en el botón
+        function enterPage() {
+            window.location.href = '2index.html'; // Reemplaza con la URL a donde deseas redirigir
+        }
+    </script>
+</body>
+</html>
+<style>
+    /* Animación de rebote */
+    @keyframes bounce {
+        0%, 100% {
+            transform: perspective(600px) translateY(0) rotateX(10deg);
+        }
+        50% {
+            transform: perspective(600px) translateY(-10px) rotateX(10deg);
+        }
+    }
+
+    /* Animación de pulso */
+    @keyframes pulse {
+        0%, 100% {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+    }
+
+    /* Animación de entrada suave */
+    @keyframes fadeInName {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Animación de deslizamiento hacia arriba */
+    @keyframes slideUp {
+        0% {
+            transform: translate(-50%, 50%);
+            opacity: 0;
+        }
+        100% {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+  /* Animación del sobre */
+  .envelope {
+            animation: bounce 1s ease-in-out infinite; /* Rebote suave */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        /* Efecto hover solo para el sobre */
+        .envelope:hover {
+            transform: perspective(600px) rotateX(0deg) scale(1.05); /* Ampliación */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra más intensa */
+        }
+
+        /* Número con animación de pulso */
+        .envelope-number {
+            animation: pulse 2s infinite; /* Efecto de pulso */
+        }
+
+        /* Nombre con entrada suave */
+        .envelope-name {
+            animation: fadeInName 2s ease-in-out; /* Entrada suave */
+        }
+
+        /* Contenido del sobre con deslizamiento */
+        .envelope.open .envelope-content {
+            animation: slideUp 1s ease-in-out; /* Deslizamiento al abrir */
+        }
+
+        /* Animación de estrella de 15 segundos */
+        @keyframes starAnimation {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            25% {
+                transform: scale(1.5) rotate(45deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(2) rotate(90deg);
+                opacity: 0.8;
+            }
+            75% {
+                transform: scale(1.5) rotate(135deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        /* Estilo para el contenedor de animación */
+        .star-animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f9;
+            z-index: 9999;
+        }
+
+        .star-animation {
+            animation: starAnimation 15s ease-in-out forwards;
+            width: 80px;  /* Tamaño más pequeño */
+            height: 80px; /* Tamaño más pequeño */
+            background-color: gold;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            opacity: 1;
+        }
+
+          /* Estilo del texto con ajustes responsive */
+          .intro-text {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: fadeInOut 8s ease-in-out, slideDown 8s ease-in-out forwards;
+            position: absolute;
+            top: 60%; /* Ajuste para bajar el texto un poco más */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            width: 90%; /* Ajuste para que sea responsivo */
+            max-width: 600px; /* Ancho máximo */
+            padding: 0 10px; /* Padding lateral */
+            box-sizing: border-box; /* Incluir padding en el ancho total */
+        }
+
+        /* Modificación del efecto de brillo */
+        .shine-effect {
+            animation: shine 2s ease-in-out infinite;
+            text-shadow: 
+                0 0 10px #00ff00, 
+                0 0 20px #00ff00, 
+                0 0 30px #00ff00, 
+                0 0 40px #00ff00, 
+                0 0 50px #00ff00;
+        }
+
+        /* Animación de brillo mejorada */
+        @keyframes shine {
+            0%, 100% {
+                text-shadow: 
+                    0 0 10px #00ff00, 
+                    0 0 20px #00ff00, 
+                    0 0 30px #00ff00, 
+                    0 0 40px #00ff00, 
+                    0 0 50px #00ff00;
+            }
+            50% {
+                text-shadow: 
+                    0 0 20px #00ff00, 
+                    0 0 40px #00ff00, 
+                    0 0 60px #00ff00, 
+                    0 0 80px #00ff00, 
+                    0 0 100px #00ff00;
+            }
+        }
+
+        /* Añadir esta regla para el fade-out */
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-out, visibility 1s;
+        }
+
+        /* Estilo para el botón en forma de estrella */
+        .star-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10001;
+            animation: fadeInStar 1s ease-out forwards;
+        }
+
+        .star-button img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        /* Animación de entrada para el botón */
+        @keyframes fadeInStar {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Ajuste para dispositivos móviles */
+        @media (max-width: 768px) {
+            .intro-text {
+                font-size: 1.8rem; /* Reducir tamaño de fuente */
+                width: 95%; /* Casi todo el ancho en móviles */
+                max-width: 100%; /* Sin límite de ancho */
+            }
+
+            .star-animation {
+                width: 60px; /* Reducir tamaño de estrella */
+                height: 60px;
+            }
+
+            .redirect-button {
+                width: 50px; /* Reducir tamaño del botón */
+                height: 50px;
+            }
+        }
+
+        /* Ajustes adicionales para diferentes tamaños de pantalla */
+        @media (max-width: 480px) {
+            .intro-text {
+                font-size: 1.5rem; /* Aún más pequeño para pantallas muy pequeñas */
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .intro-text {
+                font-size: 2rem; /* Tamaño intermedio para tablets */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animación de estrella (introducción) -->
+    <div class="star-animation-container">
+        <div class="star-animation"></div>
+    </div>
+
+    <!-- Texto elegante de introducción -->
+    <div class="intro-text shine-effect fade-in">
+        <p>Starlive te tiene una sorpresa</p>
+    </div>
+
+    <!-- Contenido de la página -->
+    <div class="content" style="display: none;">
+        <!-- Botón estrella para redirigir -->
+        <button class="star-button" onclick="window.location.href='5index.html'">
+            <img src="./imagenes/usuario.webp" alt="Imagen estrella">
+        </button>
+
+        <!-- Contenido del sobre -->
+        <div class="envelope">
+            <div class="envelope-number">12345</div>
+            <div class="envelope-name">Nombre del destinatario</div>
+            <div class="envelope-content">Contenido del sobre</div>
+        </div>
+    </div>
+
+    <script>
+        // Función para controlar la animación
+        window.onload = function() {
+            const starAnimationContainer = document.querySelector('.star-animation-container');
+            const introText = document.querySelector('.intro-text');
+            const content = document.querySelector('.content');
+            const starButton = document.querySelector('.star-button');
+
+            // Desaparecer texto a los 8 segundos
+            setTimeout(function() {
+                introText.classList.add('fade-out');
+            }, 8000);
+
+            // Ocultar el contenedor de animación de estrella y mostrar contenido a los 15 segundos
+            setTimeout(function() {
+                starAnimationContainer.style.display = 'none';
+                content.style.display = 'block';
+            }, 15000);
+
+            // Mostrar el botón estrella después de la animación
+            setTimeout(function() {
+                starButton.style.display = 'block';
+            }, 15000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lluvia de Fotos</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+            position: relative;
+            background: url('imagenes/verde S.avif') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Imagen central en el fondo */
+        #centerImage {
+            width: 70%; /* Ajustado para ser flexible */
+            height: auto;
+            opacity: 0.6;
+            filter: brightness(1.2);
+            position: absolute;
+            z-index: 0; /* Imagen al fondo */
+            top: 80px; /* Sube un poco más */
+        }
+
+        /* Capa de lluvia */
+        #rainContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 3; /* Aseguramos que la lluvia esté encima de la imagen central */
+        }
+
+        .rain-photo {
+            position: absolute;
+            animation: fall linear infinite, trail 2s infinite;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 0.6);
+            max-width: 100px; /* Tamaño máximo ajustado */
+            max-height: 120px; /* Tamaño máximo ajustado */
+            min-width: 50px; /* Tamaño mínimo ajustado */
+            min-height: 60px; /* Tamaño mínimo ajustado */
+        }
+
+        @keyframes fall {
+            0% { top: -10%; }
+            100% { top: 100%; }
+        }
+
+        @keyframes trail {
+            0% { box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 0.6); }
+            100% { box-shadow: 0px 10px 20px 10px rgba(255, 255, 255, 0); }
+        }
+
+        #photoForm {
+            position: fixed;
+            z-index: 2;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: rgba(244, 208, 66, 0.8);
+            padding: 15px 30px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input[type="file"], button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        input[type="file"] {
+            color: white;
+            background-color: transparent;
+            border: 2px solid #fff;
+        }
+
+        input[type="file"]:hover, button:hover {
+            background-color: #555;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #cameraButton {
+            background-color: #3b3b3b;
+        }
+
+        #cameraButton:hover {
+            background-color: #555;
+        }
+
+        #cameraInput {
+            display: none;
+        }
+
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 50px;
+            height: auto;
+            opacity: 0.7;
+        }
+
+        /* Estilo del botón redondo de regresar */
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .back-button:hover {
+            background-color: #3b3b3b;
+        }
+
+        #message {
+            position: fixed;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+            color: white;
+            font-family: 'Georgia', serif;
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        @media screen and (max-width: 768px) {
+            #centerImage {
+                width: 80%; /* Imagen ocupa el 80% del ancho en pantallas más pequeñas */
+                top: 80px;
+            }
+
+            #photoForm {
+                padding: 10px 20px;
+                top: 80px;
+            }
+
+            input[type="file"], button {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            #message {
+                font-size: 16px;
+            }
+
+            .back-button {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            #centerImage {
+                width: 90%; /* Imagen ocupa el 90% del ancho en pantallas más pequeñas */
+                top: 70px;
+            }
+
+            #photoForm {
+                top: 60px;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            input[type="file"], button {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+
+            #message {
+                font-size: 14px;
+            }
+
+            .back-button {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href = '2index.html';">←</button>
+    <img id="centerImage" src="./imagenes/foto45.jpeg" alt="Imagen central">
+    <div id="message">Sube o toma fotos para verlas caer como lluvia de ideas</div>
+    <div id="photoForm">
+        <input type="file" id="photoInput" accept="image/*">
+        <button onclick="addPhoto()">Subir Foto</button>
+        <button id="cameraButton" onclick="openCamera()">Tomar Foto</button>
+        <video id="video" width="300" height="200" autoplay style="display:none;"></video>
+        <canvas id="canvas" width="300" height="200" style="display:none;"></canvas>
+        <button id="captureButton" onclick="capturePhoto()" style="display:none;">Capturar Foto</button>
+    </div>
+
+    <div id="rainContainer"></div>
+
+    <audio autoplay loop>
+        <source src="./musica/feliz.ogg" type="audio/mpeg">
+        Tu navegador no soporta la etiqueta de audio.
+    </audio>
+
+    <script>
+        let videoStream;
+
+        function openCamera() {
+            const video = document.getElementById('video');
+            const captureButton = document.getElementById('captureButton');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                    captureButton.style.display = 'block';
+                    videoStream = stream;
+                })
+                .catch((error) => {
+                    console.error("Error accediendo a la cámara: ", error);
+                    alert("No se pudo acceder a la cámara.");
+                });
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const captureButton = document.getElementById('captureButton');
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageUrl = canvas.toDataURL('image/png');
+            const img = new Image();
+            img.src = imageUrl;
+            img.classList.add('rain-photo');
+            addRain(img);
+
+            videoStream.getTracks().forEach(track => track.stop());
+            video.style.display = 'none';
+            captureButton.style.display = 'none';
+        }
+
+        function addPhoto() {
+            const input = document.getElementById('photoInput');
+            const file = input.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.classList.add('rain-photo');
+                    addRain(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addRain(img) {
+            const rainContainer = document.getElementById('rainContainer');
+            const x = Math.random() * (window.innerWidth - 100); // Asegura que las fotos se mantengan dentro de la pantalla
+            const animationDuration = Math.random() * 3 + 5;
+            img.style.left = `${x}px`;
+            img.style.animationDuration = `${animationDuration}s`;
+
+            img.onload = () => {
+                rainContainer.appendChild(img);
+            };
+        }
+    </script>
+</body>
+</html>
